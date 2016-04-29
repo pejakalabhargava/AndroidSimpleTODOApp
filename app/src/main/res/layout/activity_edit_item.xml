@@ -9,27 +9,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.bkakran.simpletodo.EditItemActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/saveText"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="73dp"
-        />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
         android:id="@+id/saveBtn"
-        android:layout_marginTop="77dp"
+        android:layout_marginTop="37dp"
+        android:onClick="onSubmit"
         android:layout_below="@+id/saveText"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="false"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/saveText"
         android:layout_alignParentTop="true"
-        android:onClick="onSubmit"/>
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

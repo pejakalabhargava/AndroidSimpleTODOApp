@@ -1,5 +1,7 @@
 package com.example.bkakran.simpletodo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ public class EditItemActivity extends AppCompatActivity {
 
     EditText saveText;
     int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,13 +25,26 @@ public class EditItemActivity extends AppCompatActivity {
     }
 
     public void onSubmit(View v) {
-        // closes the activity and returns to first screen
-        // Prepare data intent
-        Intent data = new Intent();
-        // Pass relevant data back as a result
-        data.putExtra("value", saveText.getText().toString());
-        data.putExtra("position", position);
-        setResult(RESULT_OK, data);
-        finish();
+        if (saveText.getText().toString().trim().length() == 0) {
+            AlertDialog alertDialog = new AlertDialog.Builder(EditItemActivity.this).create();
+            alertDialog.setTitle("OOPS!!!");
+            alertDialog.setMessage("Please enter text");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            alertDialog.show();
+        } else {
+            // closes the activity and returns to first screen
+            // Prepare data intent
+            Intent data = new Intent();
+            // Pass relevant data back as a result
+            data.putExtra("value", saveText.getText().toString());
+            data.putExtra("position", position);
+            setResult(RESULT_OK, data);
+            finish();
+        }
     }
 }

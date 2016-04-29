@@ -1,5 +1,7 @@
 package com.example.bkakran.simpletodo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,8 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,7 +54,18 @@ public class MainActivity extends AppCompatActivity {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setMessage("Removed task '" + items.get(position) + "'");
                 items.remove(position);
+                alertDialog.show();
+
+                final Timer timer2 = new Timer();
+                timer2.schedule(new TimerTask() {
+                    public void run() {
+                        alertDialog.dismiss();
+                        timer2.cancel(); //this will cancel the timer of the system
+                    }
+                }, 500); // the timer will count 2 seconds
                 itemsAdapter.notifyDataSetChanged();
                 writeItems();
                 return true;
@@ -73,15 +88,39 @@ public class MainActivity extends AppCompatActivity {
     public void onAddItem(View view) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        itemsAdapter.add(itemText);
-        etNewItem.setText("");
-        writeItems();
+        if (itemText.trim().length() == 0) {
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("OOPS!!!");
+            alertDialog.setMessage("Please enter text");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        } else if (items.contains(itemText.trim())) {
+            AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            alertDialog.setTitle("OOPS!!!");
+            alertDialog.setMessage("You have already added this item.");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        } else {
+            itemsAdapter.add(itemText);
+            etNewItem.setText("");
+            writeItems();
+        }
     }
 
     public void textFieldClicked(View view) {
         if (view.getId() == R.id.etNewItem) {
             EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
-            //etNewItem.setText("");
+            etNewItem.setText("");
         }
     }
 
