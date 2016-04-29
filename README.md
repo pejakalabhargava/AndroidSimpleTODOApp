@@ -1,5 +1,4 @@
 # AndroidSimpleTODOApp
-AndroidSimpleTODOApp
 ----------------------------
 Extra Features:
 - Validation for adding empty text or default text "Add Item" and prompt the user with error message
