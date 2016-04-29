@@ -88,10 +88,10 @@ public class MainActivity extends AppCompatActivity {
     public void onAddItem(View view) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        if (itemText.trim().length() == 0) {
+        if (itemText.trim().length() == 0 || itemText.trim().equals("Add Item")) {
             AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
             alertDialog.setTitle("OOPS!!!");
-            alertDialog.setMessage("Please enter text");
+            alertDialog.setMessage("Please enter a task");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
